@@ -9,7 +9,6 @@ function getAllDishList() {
     .then(function (response) {
       allDish = response.data;
       defaultMenu()
-      console.log(allDish);
     })
     .catch(function (error) {
       console.log(error);
@@ -45,7 +44,6 @@ menu2.addEventListener("click", function (e) {
   allDish.forEach((item, index) => {
     if (item.category == "sideDish") {
       dataSideDish.push(item);
-      console.log(dataSideDish);
       strSideDish += `<li type="button" class="cardSideDish shadow-sm m-2 rounded" id="${index}">
       <img
         class="rounded img-fluid"
@@ -71,7 +69,6 @@ menu3.addEventListener("click", function (e) {
   allDish.forEach((item, index) => {
     if (item.category == "soup") {
       dataSoup.push(item);
-      console.log(dataSoup);
       strSoup += `<li type="button" class="cardSoup shadow-sm m-2 rounded" id="${index}">
       <img
         class="rounded img-fluid"
@@ -97,7 +94,6 @@ menu4.addEventListener("click", function (e) {
   allDish.forEach((item, index) => {
     if (item.category == "drink") {
       dataDrink.push(item);
-      console.log(dataDrink);
       strDrink += `<li type="button" class="cardDrink shadow-sm m-2 rounded" id="${index}">
       <img
         class="rounded img-fluid"
@@ -183,7 +179,6 @@ function sortList(data) {
   }
   renderOrder(arrToRecord);
   arrToRecord.sort((a,b) => a.id - b.id)
-  console.log(arrToRecord)
 }
 
 function renderOrder(arrToRecord) {
@@ -230,7 +225,6 @@ sendBtn.addEventListener("click", function (e) {
   axios.post(`${path}carts?tableId=${table}`, cartData)
   .then(function (response) {
     console.log(response.data);
-    debugger
   })
   .catch(function (error) {
     console.log(error);
@@ -253,7 +247,6 @@ sendBtn.addEventListener("click", function (e) {
   //       console.log(error);
   //     });
   // });
-  debugger
   entry();
 });
 function entry() {
@@ -289,7 +282,6 @@ function fineProductsId(item) {
   let id;
   allDish.find((e) => {
     if (e.name == item.name) {
-      console.log(e.id);
       id = e.id;
     }
   });
