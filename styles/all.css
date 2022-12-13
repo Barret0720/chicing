@@ -554,5 +554,6 @@ tr {
 @media screen and (max-width: 900px) {
   .bills {
     flex-wrap: wrap;
+    justify-content: center;
   }
 }/*# sourceMappingURL=all.css.map */

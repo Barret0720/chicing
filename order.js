@@ -141,6 +141,7 @@ function defaultMenu() {
     });
   });
 }
+
 //已點餐點
 const list = document.querySelector(".right .list");
 const btnSecondaryReduce = document.querySelector(".btnSecondaryReduce");
@@ -154,6 +155,14 @@ const getUrlString = location.href;
 const url = new URL(getUrlString);
 let table = url.searchParams.get("desk");
 document.querySelector(".table").innerHTML = table;
+
+//狀態綁定
+let cartStatus = url.searchParams.get("status");
+if(cartStatus === 'exists'){
+  document.querySelector('.sendBtn').classList.add("disabled");
+}else {
+  document.querySelector('.checkBillBtn').classList.add("disabled");
+}
 
 let arrToRecord = [];
 function sortList(data) {
@@ -206,6 +215,7 @@ function renderOrder(arrToRecord) {
     });
   });
 }
+
 function totalRender(arrToRecord) {
   let total = 0;
   arrToRecord.forEach((obj) => {
@@ -251,9 +261,11 @@ sendBtn.addEventListener("click", function (e) {
   // });
   
 });
+
 function entry() {
   window.location.href = "table.html";
 }
+
 const checkBillBtn = document.querySelector(".checkBillBtn");
 checkBillBtn.addEventListener("click", function (e) {
   let tableId = table;
@@ -280,6 +292,7 @@ function sortCartList(arrToRecord) {
     dataRecordList.push(obj);
   });
 }
+
 function fineProductsId(item) {
   let id;
   allDish.find((e) => {
@@ -311,3 +324,4 @@ function regTime(){
     .toString()
     .padStart(2, 0)}`;
 }
+

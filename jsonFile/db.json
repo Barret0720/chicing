@@ -155,28 +155,70 @@
   ],
   "carts": [
     {
-      "tableId": "1",
-      "productsId": 1,
-      "quantity": 1,
-      "price": 50,
-      "time": "2022/12/11 18:26",
-      "id": 1
+      "tableId": "2",
+      "time": "2022/12/13 18:57",
+      "totalPrice": 150,
+      "paid": false,
+      "detail": [
+        {
+          "productsId": 2,
+          "name": "招牌滷肉飯(小)",
+          "num": 1,
+          "price": 30
+        },
+        {
+          "productsId": 1,
+          "name": "招牌滷肉飯(大)",
+          "num": 1,
+          "price": 50
+        },
+        {
+          "productsId": 4,
+          "name": "白飯",
+          "num": 1,
+          "price": 20
+        },
+        {
+          "productsId": 3,
+          "name": "招牌雞絲飯",
+          "num": 1,
+          "price": 50
+        }
+      ],
+      "id": 4
     },
     {
-      "tableId": "1",
-      "productsId": 2,
-      "quantity": 1,
-      "price": 30,
-      "time": "2022/12/11 18:26",
-      "id": 2
-    },
-    {
-      "tableId": "1",
-      "productsId": 3,
-      "quantity": 1,
-      "price": 50,
-      "time": "2022/12/11 18:26",
-      "id": 3
+      "tableId": "3",
+      "time": "2022/12/13 19:09",
+      "totalPrice": 150,
+      "paid": false,
+      "detail": [
+        {
+          "productsId": 2,
+          "name": "招牌滷肉飯(小)",
+          "num": 1,
+          "price": 30
+        },
+        {
+          "productsId": 1,
+          "name": "招牌滷肉飯(大)",
+          "num": 1,
+          "price": 50
+        },
+        {
+          "productsId": 3,
+          "name": "招牌雞絲飯",
+          "num": 1,
+          "price": 50
+        },
+        {
+          "productsId": 4,
+          "name": "白飯",
+          "num": 1,
+          "price": 20
+        }
+      ],
+      "id": 5
     }
   ],
   "bills": [
@@ -263,6 +305,18 @@
       "total": 580,
       "time": "2022/12/13 16:52",
       "id": 14
+    },
+    {
+      "tableId": "1",
+      "total": 0,
+      "time": "2022/12/13 18:57",
+      "id": 15
+    },
+    {
+      "tableId": "1",
+      "total": 0,
+      "time": "2022/12/13 18:57",
+      "id": 16
     }
   ]
 }

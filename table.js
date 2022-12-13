@@ -37,15 +37,15 @@ function renderTable() {
   let tableStr = "";
   for (let j = 1; j <= 12; j++) {
     if (cart.find((item) => item.tableId == j)) {
-      tableStr += `<li data-order class="tableNum tableBtn2" id="${j}">${j}</li>`;
+      tableStr += `<li data-order class="tableNum tableBtn2" data-status='exists' id="${j}">${j}</li>`;
     } else {
       tableStr += `<li data-order class="tableNum tableBtn" id="${j}">${j}</li>`;
     }
   }
   tables.innerHTML = tableStr;
   cart.find((item) => {
-    if (item.tableId == "外帶") {
-      takeout.innerHTML = `<li data-order class="takeoutNum takeoutBtn2" id="外帶">外帶</li>`;
+    if (item.tableId === "外帶") {
+      takeout.innerHTML = `<li data-order class="takeoutNum takeoutBtn2" data-status='exists' id="外帶">外帶</li>`;
     } else {
       takeout.innerHTML = `<li data-order class="takeoutNum takeoutBtn" id="外帶">外帶</li>`;
     }
@@ -54,11 +54,17 @@ function renderTable() {
   dataOrder.forEach((item) => {
     item.addEventListener("click", (e) => {
       let id = e.target.id; //新增這串
-      entry(id); // 然後帶值
+      let status = e.target.dataset.status
+      entry(id,status); // 然後帶值
     });
   });
 }
 
-function entry(table) {
-  window.location.href = `order.html?desk=${table}`; //網址導向的時候，帶入desk
+function entry(table,status) {
+  if(status === 'exists'){
+    window.location.href = `status.html?desk=${table}`; //網址導向的時候，帶入desk
+  }else{
+     window.location.href = `order.html?desk=${table}&status=${status}`; //網址導向的時候，帶入desk
+  }
+ 
 }
