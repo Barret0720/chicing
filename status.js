@@ -33,11 +33,13 @@ getAllDishList();
 let cart = [];
 function getCartList() {
   axios
-    .get(`${path}carts?tableId=${tableId}`)
+    .get(`${path}carts?tableId=${tableId}&paid=false`)
     .then(function (response) {
-      cart = response.data;
+      cart = response.data[0];
+      detail = cart.detail
       console.log(cart);
-      render(cart);
+      console.log(detail);
+      render(detail);
     })
     .catch(function (error) {
       console.log(error);
@@ -49,12 +51,13 @@ const orderContent = document.querySelector(".orderContent");
 function render(cart) {
   let contentOfCart = [];
   cart.forEach((item) => {
+    console.log(item)
     let obj = {};
     console.log(allDish[item.productsId - 1]);
     obj.name = allDish[item.productsId - 1].name;
-    obj.quantity = item.quantity;
+    obj.quantity = item.num;
     obj.price = allDish[item.productsId - 1].price;
-    obj.time = item.time;
+    obj.time = cart.time;
     contentOfCart.push(obj);
   });
   console.log(contentOfCart);
@@ -69,7 +72,7 @@ function renderDetail(data) {
 <td>${item.name}</td>
 <td>${item.quantity}</td>
 <td>$${item.quantity * item.price}</td>
-<td>${item.time}</td>
+<td>${cart.time}</td>
 </tr>`;
   });
   orderContent.innerHTML = str;

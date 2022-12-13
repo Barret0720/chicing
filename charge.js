@@ -20,14 +20,12 @@ let cart = [];
 let total = 0;
 function getCartList() {
   axios
-    .get(`${path}carts?tableId=${tableId}`)
+    .get(`${path}carts?tableId=${tableId}&paid=false`)
     .then(function (response) {
       cart = response.data;
       console.log(cart);
-      cart.forEach((item) => {
-        total += item.price;
-      });
-      renderTotal();
+      total = cart[0].totalPrice;
+      renderTotal(total);
     })
     .catch(function (error) {
       console.log(error);
@@ -37,9 +35,9 @@ getCartList();
 
 let money;
 const totalMoney = document.querySelector(".totalMoney");
-function renderTotal() {
+function renderTotal(money) {
+  console.log(total)
   // 替換訂單總金額
-  money = total;
   let totalMoneyStr = `<input type="text" id="totalMoney" class="totalMoney form-control fs-26" placeholder="$${money}">`;
   totalMoney.innerHTML = totalMoneyStr;
 }
@@ -105,7 +103,7 @@ function addBills() {
   axios
     .post(`${path}bills`, {
       tableId: tableId,
-      total: money,
+      total: total,
       time: `${new Date().getFullYear()}/${
         new Date().getMonth() + 1
       }/${new Date().getDate()} ${new Date().getHours()}:${new Date()

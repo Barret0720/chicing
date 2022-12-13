@@ -8,6 +8,7 @@ function getAllDishList() {
     .get(`${path}products`)
     .then(function (response) {
       allDish = response.data;
+      defaultMenu()
       console.log(allDish);
     })
     .catch(function (error) {
@@ -37,31 +38,7 @@ const menu2 = document.querySelector(".menu2");
 const menu3 = document.querySelector(".menu3");
 const menu4 = document.querySelector(".menu4");
 menu1.addEventListener("click", function (e) {
-  let strRice = "";
-  allDish.forEach((item, index) => {
-    if (item.category == "rice") {
-      dataRice.push(item);
-
-      strRice += `<li type="button" class="cardRice shadow-sm m-2 rounded" id="${index}">
-      <img
-        class="rounded img-fluid"
-        src="${item.imgUrl}"
-        alt="rice"
-        width="120px"
-        height="120px"
-      />
-      <p>${item.name}<br> $ ${item.price}</p>
-      </li>`;
-    }
-  });
-
-  dishMenuCard.innerHTML = strRice;
-  const cardRice = document.querySelectorAll(".cardRice");
-  cardRice.forEach((id, index) => {
-    id.addEventListener("click", function (e) {
-      sortList(dataRice[index]);
-    });
-  });
+ defaultMenu();
 });
 menu2.addEventListener("click", function (e) {
   let strSideDish = "";
@@ -141,6 +118,33 @@ menu4.addEventListener("click", function (e) {
     });
   });
 });
+function defaultMenu() {
+  let strRice = "";
+  allDish.forEach((item, index) => {
+    if (item.category == "rice") {
+      dataRice.push(item);
+
+      strRice += `<li type="button" class="cardRice shadow-sm m-2 rounded" id="${index}">
+      <img
+        class="rounded img-fluid"
+        src="${item.imgUrl}"
+        alt="rice"
+        width="120px"
+        height="120px"
+      />
+      <p>${item.name}<br> $ ${item.price}</p>
+      </li>`;
+    }
+  });
+
+  dishMenuCard.innerHTML = strRice;
+  const cardRice = document.querySelectorAll(".cardRice");
+  cardRice.forEach((id, index) => {
+    id.addEventListener("click", function (e) {
+      sortList(dataRice[index]);
+    });
+  });
+}
 //已點餐點
 const list = document.querySelector(".right .list");
 const btnSecondaryReduce = document.querySelector(".btnSecondaryReduce");
@@ -158,6 +162,7 @@ let arrToRecord = [];
 function sortList(data) {
   if (arrToRecord.length === 0) {
     let obj = {};
+    obj.productsId = data.id;
     obj.name = data.name;
     obj.num = 1;
     obj.price = data.price;
@@ -166,6 +171,7 @@ function sortList(data) {
     let obj2 = {};
     let product = arrToRecord.find((item) => item.name === data.name);
     if (!product) {
+      obj2.productsId = data.id;
       obj2.name = data.name;
       obj2.num = 1;
       obj2.price = data.price;
@@ -176,6 +182,8 @@ function sortList(data) {
     if (Object.keys(obj2).length > 0) arrToRecord.push(obj2);
   }
   renderOrder(arrToRecord);
+  arrToRecord.sort((a,b) => a.id - b.id)
+  console.log(arrToRecord)
 }
 
 function renderOrder(arrToRecord) {
@@ -192,6 +200,7 @@ function renderOrder(arrToRecord) {
   });
   list.innerHTML = str;
   totalRender(arrToRecord);
+
   //delete按鈕
   const deleteBtn = document.querySelectorAll(".deleteBtn");
   deleteBtn.forEach((e, index) => {
@@ -211,24 +220,40 @@ function totalRender(arrToRecord) {
 
 sendBtn.addEventListener("click", function (e) {
   alert("訂單送出成功");
-  sortCartList(arrToRecord);
-  console.log(dataRecordList);
-  dataRecordList.forEach((item) => {
-    axios
-      .post(`${path}carts?tableId=${table}`, {
-        tableId: item.tableId,
-        productsId: item.productsId,
-        quantity: item.quantity,
-        price: item.price,
-        time: item.time,
-      })
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  let cartData={
+    tableId:table,
+    time: regTime(),
+    totalPrice : getTotalPrice(),
+    paid: false,
+    detail: arrToRecord
+  }
+  axios.post(`${path}carts?tableId=${table}`, cartData)
+  .then(function (response) {
+    console.log(response.data);
+    debugger
+  })
+  .catch(function (error) {
+    console.log(error);
   });
+  // sortCartList(arrToRecord);
+  // console.log(dataRecordList);
+  // dataRecordList.forEach((item) => {
+  //   axios
+  //     .post(`${path}carts?tableId=${table}`, {
+  //       tableId: item.tableId,
+  //       productsId: item.productsId,
+  //       quantity: item.quantity,
+  //       price: item.price,
+  //       time: item.time,
+  //     })
+  //     .then(function (response) {
+  //       console.log(response.data);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // });
+  debugger
   entry();
 });
 function entry() {
@@ -269,4 +294,26 @@ function fineProductsId(item) {
     }
   });
   return id;
+}
+
+
+// 取得訂單總價
+function getTotalPrice(){
+  let total = 0;
+  arrToRecord.forEach((obj) => {
+    total += obj.price;
+  });
+  return total
+}
+
+
+
+//格式化時間
+function regTime(){
+  return `${new Date().getFullYear()}/${
+    new Date().getMonth() + 1
+  }/${new Date().getDate()} ${new Date().getHours()}:${new Date()
+    .getMinutes()
+    .toString()
+    .padStart(2, 0)}`;
 }
