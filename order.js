@@ -148,6 +148,7 @@ const btnSecondaryNum = document.querySelector(".btnSecondaryNum");
 const btnSecondaryPlus = document.querySelector(".btnSecondaryPlus");
 const totalNum = document.querySelector(".totalNum");
 const sendBtn = document.querySelector(".sendBtn");
+
 //帶入桌號
 const getUrlString = location.href;
 const url = new URL(getUrlString);
