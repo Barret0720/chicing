@@ -33,7 +33,6 @@ function getCartList() {
 }
 getCartList();
 
-let money;
 const totalMoney = document.querySelector(".totalMoney");
 function renderTotal(money) {
   console.log(total)
@@ -64,7 +63,7 @@ const confirmCheck = document.querySelector(".confirmCheck");
 const chargeBtn = document.querySelector(".chargeBtn");
 
 confirmCheck.addEventListener("click", function (e) {
-  backMoney.value = `${Number(reciveMoney.value) - money}`;
+  backMoney.value = `${Number(reciveMoney.value) - total}`;
 });
 chargeBtn.addEventListener("click", function (e) {
   const swalWithBootstrapButtons = Swal.mixin({
@@ -114,7 +113,7 @@ function addBills() {
 
     .then(function (response) {
       console.log(response.data);
-    deleteCart();
+      deleteCart();
     })
     .catch(function (error) {
       console.log(error);
@@ -155,6 +154,7 @@ function deleteCart() {
       console.log(error);
     })
   });
+  entry()
   
 }
 console.log(cart);

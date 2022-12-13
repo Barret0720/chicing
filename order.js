@@ -226,6 +226,7 @@ sendBtn.addEventListener("click", function (e) {
   axios.post(`${path}carts?tableId=${table}`, cartData)
   .then(function (response) {
     console.log(response.data);
+    entry();
   })
   .catch(function (error) {
     console.log(error);
@@ -248,7 +249,7 @@ sendBtn.addEventListener("click", function (e) {
   //       console.log(error);
   //     });
   // });
-  entry();
+  
 });
 function entry() {
   window.location.href = "table.html";
